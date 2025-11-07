@@ -1,157 +1,130 @@
-:root {
-  --bg: #0f172a;
-  --surface: #111827;
-  --card: #1f2937;
-  --text: #e5e7eb;
-  --muted: #94a3b8;
-  --primary: #22c55e;
-  --danger: #ef4444;
-  --accent: #3b82f6;
-  --shadow: 0 10px 25px rgba(0,0,0,0.25);
-  --radius: 12px;
-}
-
-* { box-sizing: border-box; }
-
 body {
-  margin: 0;
-  padding: 0;
-  font-family: Inter, Arial, sans-serif;
-  background: radial-gradient(1200px 600px at 20% 0%, #0b1226, var(--bg));
-  color: var(--text);
+  font-family: Arial, sans-serif;
+  background: linear-gradient(to right, #74ebd5, #ACB6E5);
+  color: #333;
+  text-align: center;
+  padding: 20px;
 }
 
-/* Contêiner principal */
-.app {
-  max-width: 720px;
-  margin: 60px auto;
-  padding: 28px;
-  background: var(--surface);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
+h1 {
+  color: #222;
 }
 
-/* Cabeçalho */
-.header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 14px;
-  margin-bottom: 22px;
+input {
+  padding: 10px;
+  border: 2px solid #555;
+  border-radius: 5px;
 }
 
-.header h1 {
-  font-size: 2.4rem;
-  font-weight: 800;
-  color: var(--accent);
-  margin: 0;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.header .badge {
-  padding: 6px 12px;
-  border-radius: 999px;
-  font-size: 1rem;
-  color: var(--muted);
-  border: 1px dashed #1b2b4d;
-}
-
-/* Barra de entrada */
-.input-row {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 10px;
-  margin-bottom: 18px;
-}
-
-.input-row input {
-  padding: 12px 14px;
-  border-radius: var(--radius);
-  border: 1px solid #1b2b4d;
-  background: #0c1326;
-  color: var(--text);
-  outline: none;
-}
-
-.input-row input::placeholder { color: #6b7280; }
-
-.btn {
-  padding: 12px 16px;
-  border: none;
-  border-radius: var(--radius);
-  background: var(--accent);
+button {
+  padding: 10px 15px;
+  margin-left: 5px;
+  background-color: #4CAF50;
   color: white;
+  border: none;
+  border-radius: 5px;
   cursor: pointer;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 8px;
 }
 
-.btn:hover { filter: brightness(1.1); }
+button:hover {
+  background-color: #45a049;
+}
 
-/* Lista */
-#lista {
+li {
   list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  gap: 12px;
+  background: white;
+  margin: 5px auto;
+  padding: 10px;
+  width: 250px;
+  border-radius: 5px;
+  transition: transform 0.2s;
 }
 
-/* Card de tarefa */
-.task {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 14px 16px;
-  background: var(--card);
-  border-radius: var(--radius);
-  box-shadow: 0 6px 16px rgba(0,0,0,.25);
+li:hover {
+  transform: scale(1.05);
 }
 
-.task .dot {
-  width: 14px; height: 14px;
-  border-radius: 50%;
-  background: #263a61;
-  border: 2px solid #3a5b95;
+/* Animação de entrada */
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.task .text {
-  flex: 1;
-  margin-left: 12px;
-  font-size: 1.1rem;
-  color: var(--text);
+/* Estilo dos itens da lista */
+li {
+  list-style: none;
+  background: white;
+  margin: 5px auto;
+  padding: 10px;
+  width: 250px;
+  border-radius: 5px;
+  animation: aparecer 0.3s ease; /* aplica a animação */
+  transition: transform 0.2s;
 }
 
-/* Botões de ação */
-.actions {
-  display: flex;
-  gap: 10px;
+/* Efeito ao passar o mouse */
+li:hover {
+  transform: scale(1.05);
 }
 
-.icon-btn {
-  padding: 8px 12px;
-  border-radius: var(--radius);
+button {
+  padding: 10px 15px;
+  margin-left: 5px;
+  background-color: #4CAF50; /* verde */
+  color: white;
   border: none;
+  border-radius: 5px;
   cursor: pointer;
-  font-weight: 600;
+  transition: all 0.3s ease; /* suaviza mudanças */
 }
 
-.icon-btn.complete {
-  background: var(--primary);
-  color: white;
+/* Efeito ao passar o mouse */
+button:hover {
+  background-color: #45a049; /* tom mais escuro */
+  transform: scale(1.1);     /* aumenta levemente */
 }
 
-.icon-btn.remove {
-  background: var(--danger);
-  color: white;
+/* Efeito ao clicar */
+button:active {
+  transform: scale(0.95);    /* dá sensação de clique */
 }
 
-/* Estado concluído */
-.task.concluido .text {
-  text-decoration: line-through;
-  color: #9aa8bd;
-  opacity: .8;
+@keyframes pulsar {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.botao-destaque {
+  animation: pulsar 1s infinite;
+}
+
+/* Animação para desaparecer suavemente */
+@keyframes desaparecer {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+}
+
+/* Classe que aplica a animação */
+.removendo {
+  animation: desaparecer 0.3s forwards;
+}
+
+.concluido {
+  text-decoration: line-through; /* risca o texto */
+  color: gray;                   /* muda a cor para indicar concluído */
+  opacity: 0.7;                  /* deixa mais "apagado" */
+  transition: all 0.3s ease;     /* efeito suave */
 }
