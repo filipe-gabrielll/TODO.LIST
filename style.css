@@ -122,6 +122,14 @@ button:active {
   animation: desaparecer 0.3s forwards;
 }
 
+.concluido {
+  text-decoration: line-through; /* risca o texto */
+  color: gray;                   /* muda a cor para indicar concluído */
+  opacity: 0.7;                  /* deixa mais "apagado" */
+  transition: all 0.3s ease;     /* efeito suave */
+}
+
+
 
 
 
