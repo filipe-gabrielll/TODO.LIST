@@ -1,51 +1,76 @@
 function adicionarTarefa() {
   const input = document.getElementById('nova-tarefa');
   const lista = document.getElementById('lista');
-  
-  if (input.value.trim() !== '') {
-    const item = document.createElement('li');
-    item.textContent = input.value;
+  const texto = input.value.trim();
 
-    // Botão de concluir
-    const botaoConcluir = document.createElement('button');
-    botaoConcluir.textContent = "✅";
-    botaoConcluir.style.marginLeft = "10px";
-    botaoConcluir.onclick = () => {
-      item.classList.toggle('concluido');
-      salvarTarefas();
-    };
+  if (!texto) return;
 
-    // Botão de remover
-    const botaoRemover = document.createElement('button');
-    botaoRemover.textContent = "❌";
-    botaoRemover.style.marginLeft = "10px";
-    botaoRemover.onclick = () => {
-      item.classList.add('removendo');
-      setTimeout(() => {
-        item.remove();
-        salvarTarefas();
-      }, 300);
-    };
+  const item = criarItemTarefa(texto);
+  lista.appendChild(item);
 
-    // Adiciona os botões ao item
-    item.appendChild(botaoConcluir);
-    item.appendChild(botaoRemover);
+  input.value = '';
+  salvarTarefas();
+}
 
-    lista.appendChild(item);
+function criarItemTarefa(texto, concluido = false) {
+  const item = document.createElement('li');
+  item.className = 'task';
 
-    // Limpa o campo e salva
-    input.value = '';
+  // bolinha decorativa
+  const dot = document.createElement('span');
+  dot.className = 'dot';
+
+  // texto da tarefa
+  const spanText = document.createElement('span');
+  spanText.className = 'text';
+  spanText.textContent = texto;
+
+  // container de ações
+  const actions = document.createElement('div');
+  actions.className = 'actions';
+
+  // botão concluir
+  const botaoConcluir = document.createElement('button');
+  botaoConcluir.className = 'icon-btn complete';
+  botaoConcluir.innerHTML = '<span class="dot-mini"></span> Concluir';
+  botaoConcluir.onclick = () => {
+    item.classList.toggle('concluido');
     salvarTarefas();
+  };
+
+  // botão remover
+  const botaoRemover = document.createElement('button');
+  botaoRemover.className = 'icon-btn remove';
+  botaoRemover.innerHTML = '<span class="dot-mini"></span> Remover';
+  botaoRemover.onclick = () => {
+    item.classList.add('removendo');
+    setTimeout(() => {
+      item.remove();
+      salvarTarefas();
+    }, 300);
+  };
+
+  actions.appendChild(botaoConcluir);
+  actions.appendChild(botaoRemover);
+
+  item.appendChild(dot);
+  item.appendChild(spanText);
+  item.appendChild(actions);
+
+  if (concluido) {
+    item.classList.add('concluido');
   }
+
+  return item;
 }
 
 function salvarTarefas() {
   const lista = document.getElementById('lista');
   const tarefas = [];
-  
-  lista.querySelectorAll('li').forEach(item => {
+
+  lista.querySelectorAll('.task').forEach(item => {
     tarefas.push({
-      texto: item.firstChild.textContent,
+      texto: item.querySelector('.text').textContent,
       concluido: item.classList.contains('concluido')
     });
   });
@@ -55,39 +80,12 @@ function salvarTarefas() {
 
 function carregarTarefas() {
   const lista = document.getElementById('lista');
+  lista.innerHTML = ''; // limpa antes de carregar
+
   const tarefas = JSON.parse(localStorage.getItem('tarefas')) || [];
 
   tarefas.forEach(tarefa => {
-    const item = document.createElement('li');
-    item.textContent = tarefa.texto;
-
-    if (tarefa.concluido) {
-      item.classList.add('concluido');
-    }
-
-    // Botão de concluir
-    const botaoConcluir = document.createElement('button');
-    botaoConcluir.textContent = "✅";
-    botaoConcluir.style.marginLeft = "10px";
-    botaoConcluir.onclick = () => {
-      item.classList.toggle('concluido');
-      salvarTarefas();
-    };
-
-    // Botão de remover
-    const botaoRemover = document.createElement('button');
-    botaoRemover.textContent = "❌";
-    botaoRemover.style.marginLeft = "10px";
-    botaoRemover.onclick = () => {
-      item.classList.add('removendo');
-      setTimeout(() => {
-        item.remove();
-        salvarTarefas();
-      }, 300);
-    };
-
-    item.appendChild(botaoConcluir);
-    item.appendChild(botaoRemover);
+    const item = criarItemTarefa(tarefa.texto, tarefa.concluido);
     lista.appendChild(item);
   });
 }
