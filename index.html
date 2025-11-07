@@ -7,19 +7,46 @@
 </head>
 <body>
   <div class="app">
-    <h1>Lista de Tarefas</h1>
+    <!-- Cabeçalho -->
+    <div class="header">
+      <h1>Lista de Tarefas</h1>
+      <span class="badge">Organize seu dia</span>
+    </div>
 
     <!-- Campo de texto e botão -->
     <div class="input-row">
       <input type="text" id="nova-tarefa" placeholder="Digite uma tarefa">
-      <button class="btn" onclick="adicionarTarefa()">Adicionar</button>
+      <button class="btn" onclick="adicionarTarefa()">
+        <span class="plus"></span> Adicionar
+      </button>
     </div>
 
     <!-- Lista inicial de tarefas -->
     <ul id="lista">
-      <li class="task"><span class="text">Estudar GitHub</span></li>
-      <li class="task"><span class="text">Criando projeto</span></li>
-      <li class="task"><span class="text">Compartilhar</span></li>
+      <li class="task">
+        <span class="dot"></span>
+        <span class="text">Estudar GitHub</span>
+        <div class="actions">
+          <button class="icon-btn complete"><span class="dot-mini"></span> Concluir</button>
+          <button class="icon-btn remove"><span class="dot-mini"></span> Remover</button>
+        </div>
+      </li>
+      <li class="task">
+        <span class="dot"></span>
+        <span class="text">Criando projeto</span>
+        <div class="actions">
+          <button class="icon-btn complete"><span class="dot-mini"></span> Concluir</button>
+          <button class="icon-btn remove"><span class="dot-mini"></span> Remover</button>
+        </div>
+      </li>
+      <li class="task">
+        <span class="dot"></span>
+        <span class="text">Compartilhar</span>
+        <div class="actions">
+          <button class="icon-btn complete"><span class="dot-mini"></span> Concluir</button>
+          <button class="icon-btn remove"><span class="dot-mini"></span> Remover</button>
+        </div>
+      </li>
     </ul>
   </div>
 
