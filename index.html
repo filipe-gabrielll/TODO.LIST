@@ -6,18 +6,22 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Lista de Tarefas</h1>
+  <div class="app">
+    <h1>Lista de Tarefas</h1>
 
-  <!-- Campo de texto e botão -->
-  <input type="text" id="nova-tarefa" placeholder="Digite uma tarefa">
-  <button onclick="adicionarTarefa()">Adicionar</button>
+    <!-- Campo de texto e botão -->
+    <div class="input-row">
+      <input type="text" id="nova-tarefa" placeholder="Digite uma tarefa">
+      <button class="btn" onclick="adicionarTarefa()">Adicionar</button>
+    </div>
 
-  <!-- Lista inicial de tarefas -->
-  <ul id="lista">
-    <li>Estudar GitHub</li>
-    <li>Criando projeto</li>
-    <li>Compartilhar</li>
-  </ul>
+    <!-- Lista inicial de tarefas -->
+    <ul id="lista">
+      <li class="task"><span class="text">Estudar GitHub</span></li>
+      <li class="task"><span class="text">Criando projeto</span></li>
+      <li class="task"><span class="text">Compartilhar</span></li>
+    </ul>
+  </div>
 
   <!-- Conexão com o JavaScript -->
   <script src="script.js"></script>
