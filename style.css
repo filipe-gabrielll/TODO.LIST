@@ -266,4 +266,38 @@ body.tema-claro .contador span {
   color: #1e293b;
 }
 
+.filtros {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.filtro {
+  background: #1e293b;
+  border: 1px solid #334155;
+  padding: 10px 14px;
+  border-radius: var(--radius);
+  color: var(--text);
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s ease;
+}
+
+.filtro:hover {
+  background: var(--accent);
+  color: white;
+}
+
+body.tema-claro .filtro {
+  background: #e2e8f0;
+  border-color: #cbd5e1;
+  color: #1e293b;
+}
+
+body.tema-claro .filtro:hover {
+  background: #3b82f6;
+  color: white;
+}
+
 
