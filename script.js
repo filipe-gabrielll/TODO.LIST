@@ -10,6 +10,7 @@ function adicionarTarefa() {
 
   input.value = '';
   salvarTarefas();
+  atualizarContador(); // ✅ contador atualizado após adicionar
 }
 
 function criarItemTarefa(texto, concluido = false) {
@@ -36,6 +37,7 @@ function criarItemTarefa(texto, concluido = false) {
   botaoConcluir.onclick = () => {
     item.classList.toggle('concluido');
     salvarTarefas();
+    atualizarContador(); // ✅ contador atualizado após concluir
   };
 
   // botão remover
@@ -47,6 +49,7 @@ function criarItemTarefa(texto, concluido = false) {
     setTimeout(() => {
       item.remove();
       salvarTarefas();
+      atualizarContador(); // ✅ contador atualizado após remover
     }, 300);
   };
 
@@ -88,6 +91,8 @@ function carregarTarefas() {
     const item = criarItemTarefa(tarefa.texto, tarefa.concluido);
     lista.appendChild(item);
   });
+
+  atualizarContador(); // ✅ contador atualizado ao carregar
 }
 
 window.onload = carregarTarefas;
@@ -97,8 +102,11 @@ function atualizarContador() {
   const pendentes = Array.from(tarefas).filter(t => !t.classList.contains('concluido')).length;
   const concluidas = tarefas.length - pendentes;
 
-  document.getElementById('pendentes').textContent = `Pendentes: ${pendentes}`;
-  document.getElementById('concluidas').textContent = `Concluídas: ${concluidas}`;
+  const pendentesEl = document.getElementById('pendentes');
+  const concluidasEl = document.getElementById('concluidas');
+
+  if (pendentesEl && concluidasEl) {
+    pendentesEl.textContent = `Pendentes: ${pendentes}`;
+    concluidasEl.textContent = `Concluídas: ${concluidas}`;
+  }
 }
-
-
