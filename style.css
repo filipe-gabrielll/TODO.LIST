@@ -220,4 +220,50 @@ body {
   box-shadow: 0 4px 10px rgba(0,0,0,.2);
 }
 
+/* Tema claro */
+body.tema-claro {
+  background: linear-gradient(to right, #f0f4f8, #d9e2ec);
+  color: #111;
+}
+
+body.tema-claro .app {
+  background: #ffffff;
+  color: #111;
+}
+
+body.tema-claro .task {
+  background: #f8fafc;
+  color: #111;
+}
+
+body.tema-claro .task .text {
+  color: #111;
+}
+
+body.tema-claro .btn,
+body.tema-claro .icon-btn {
+  background: #3b82f6;
+  color: white;
+}
+
+body.tema-claro .header h1 {
+  color: #1e3a8a;
+}
+
+body.tema-claro .badge {
+  color: #334155;
+  border-color: #94a3b8;
+}
+
+body.tema-claro .input-row input {
+  background: #ffffff;
+  color: #111;
+  border-color: #cbd5e1;
+}
+
+body.tema-claro .contador span {
+  background: #e2e8f0;
+  color: #1e293b;
+}
+
 
