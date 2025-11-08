@@ -2,28 +2,28 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Minha Lista</title>
+  <title>Lista de Tarefas</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="app">
-    <h1>Lista de Tarefas</h1>
-
-    <!-- Campo de texto e botão -->
-    <div class="input-row">
-      <input type="text" id="nova-tarefa" placeholder="Digite uma tarefa">
-      <button class="btn" onclick="adicionarTarefa()">Adicionar</button>
+    <div class="header">
+      <h1>Lista de Tarefas</h1>
+      <span class="badge">Organize seu dia</span>
     </div>
 
-    <!-- Lista inicial de tarefas -->
+    <div class="input-row">
+      <input type="text" id="nova-tarefa" placeholder="Digite uma tarefa">
+      <button class="btn" onclick="adicionarTarefa()">
+        <span class="plus"></span> Adicionar
+      </button>
+    </div>
+
     <ul id="lista">
-      <li class="task"><span class="text">Estudar GitHub</span></li>
-      <li class="task"><span class="text">Criando projeto</span></li>
-      <li class="task"><span class="text">Compartilhar</span></li>
+      <!-- Tarefas serão adicionadas dinamicamente -->
     </ul>
   </div>
 
-  <!-- Conexão com o JavaScript -->
   <script src="script.js"></script>
 </body>
 </html>
