@@ -88,7 +88,8 @@ function carregarTarefas() {
   });
 
   atualizarContador();
-  aplicarTemaSalvo(); // ✅ aplica tema salvo ao carregar
+  aplicarTemaSalvo();
+  aplicarFiltros(); // ✅ garante que os filtros funcionem após carregar
 }
 
 window.onload = carregarTarefas;
@@ -127,24 +128,28 @@ botaoTema.onclick = () => {
   botaoTema.textContent = temaAtual === 'claro' ? 'Tema Escuro' : 'Tema Claro';
 };
 
-// Filtro de visualização
-document.querySelectorAll('.filtro').forEach(botao => {
-  botao.onclick = () => {
-    const tipo = botao.dataset.filtro;
-    const tarefas = document.querySelectorAll('.task');
+// ✅ Filtro de visualização corrigido
+function aplicarFiltros() {
+  const botoesFiltro = document.querySelectorAll('.filtro');
 
-    tarefas.forEach(tarefa => {
-      tarefa.style.display = 'flex'; // mostra por padrão
+  botoesFiltro.forEach(botao => {
+    botao.onclick = () => {
+      const tipo = botao.dataset.filtro;
+      const tarefas = document.querySelectorAll('.task');
 
-      if (tipo === 'pendentes' && tarefa.classList.contains('concluido')) {
-        tarefa.style.display = 'none';
-      }
+      tarefas.forEach(tarefa => {
+        if (tipo === 'todas') {
+          tarefa.style.display = 'flex';
+        } else if (tipo === 'pendentes') {
+          tarefa.style.display = tarefa.classList.contains('concluido') ? 'none' : 'flex';
+        } else if (tipo === 'concluidas') {
+          tarefa.style.display = tarefa.classList.contains('concluido') ? 'flex' : 'none';
+        }
+      });
 
-      if (tipo === 'concluidas' && !tarefa.classList.contains('concluido')) {
-        tarefa.style.display = 'none';
-      }
-    });
-  };
-});
-
-
+      // Atualiza visual do botão ativo
+      botoesFiltro.forEach(b => b.classList.remove('ativo'));
+      botao.classList.add('ativo');
+    };
+  });
+}
