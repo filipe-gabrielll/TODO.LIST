@@ -126,3 +126,25 @@ botaoTema.onclick = () => {
   localStorage.setItem('tema', temaAtual);
   botaoTema.textContent = temaAtual === 'claro' ? 'Tema Escuro' : 'Tema Claro';
 };
+
+// Filtro de visualização
+document.querySelectorAll('.filtro').forEach(botao => {
+  botao.onclick = () => {
+    const tipo = botao.dataset.filtro;
+    const tarefas = document.querySelectorAll('.task');
+
+    tarefas.forEach(tarefa => {
+      tarefa.style.display = 'flex'; // mostra por padrão
+
+      if (tipo === 'pendentes' && tarefa.classList.contains('concluido')) {
+        tarefa.style.display = 'none';
+      }
+
+      if (tipo === 'concluidas' && !tarefa.classList.contains('concluido')) {
+        tarefa.style.display = 'none';
+      }
+    });
+  };
+});
+
+
