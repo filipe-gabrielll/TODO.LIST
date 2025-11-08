@@ -10,37 +10,32 @@ function adicionarTarefa() {
 
   input.value = '';
   salvarTarefas();
-  atualizarContador(); // ✅ contador atualizado após adicionar
+  atualizarContador();
 }
 
 function criarItemTarefa(texto, concluido = false) {
   const item = document.createElement('li');
   item.className = 'task';
 
-  // bolinha decorativa
   const dot = document.createElement('span');
   dot.className = 'dot';
 
-  // texto da tarefa
   const spanText = document.createElement('span');
   spanText.className = 'text';
   spanText.textContent = texto;
 
-  // container de ações
   const actions = document.createElement('div');
   actions.className = 'actions';
 
-  // botão concluir
   const botaoConcluir = document.createElement('button');
   botaoConcluir.className = 'icon-btn complete';
   botaoConcluir.innerHTML = '<span class="dot-mini"></span> Concluir';
   botaoConcluir.onclick = () => {
     item.classList.toggle('concluido');
     salvarTarefas();
-    atualizarContador(); // ✅ contador atualizado após concluir
+    atualizarContador();
   };
 
-  // botão remover
   const botaoRemover = document.createElement('button');
   botaoRemover.className = 'icon-btn remove';
   botaoRemover.innerHTML = '<span class="dot-mini"></span> Remover';
@@ -49,7 +44,7 @@ function criarItemTarefa(texto, concluido = false) {
     setTimeout(() => {
       item.remove();
       salvarTarefas();
-      atualizarContador(); // ✅ contador atualizado após remover
+      atualizarContador();
     }, 300);
   };
 
@@ -83,7 +78,7 @@ function salvarTarefas() {
 
 function carregarTarefas() {
   const lista = document.getElementById('lista');
-  lista.innerHTML = ''; // limpa antes de carregar
+  lista.innerHTML = '';
 
   const tarefas = JSON.parse(localStorage.getItem('tarefas')) || [];
 
@@ -92,7 +87,8 @@ function carregarTarefas() {
     lista.appendChild(item);
   });
 
-  atualizarContador(); // ✅ contador atualizado ao carregar
+  atualizarContador();
+  aplicarTemaSalvo(); // ✅ aplica tema salvo ao carregar
 }
 
 window.onload = carregarTarefas;
@@ -111,8 +107,22 @@ function atualizarContador() {
   }
 }
 
-document.getElementById('toggle-tema').onclick = () => {
+// ✅ Alternância de tema com salvamento e texto dinâmico
+const botaoTema = document.getElementById('toggle-tema');
+
+function aplicarTemaSalvo() {
+  const temaSalvo = localStorage.getItem('tema');
+  if (temaSalvo === 'claro') {
+    document.body.classList.add('tema-claro');
+    botaoTema.textContent = 'Tema Escuro';
+  } else {
+    botaoTema.textContent = 'Tema Claro';
+  }
+}
+
+botaoTema.onclick = () => {
   document.body.classList.toggle('tema-claro');
+  const temaAtual = document.body.classList.contains('tema-claro') ? 'claro' : 'escuro';
+  localStorage.setItem('tema', temaAtual);
+  botaoTema.textContent = temaAtual === 'claro' ? 'Tema Escuro' : 'Tema Claro';
 };
-
-
