@@ -92,8 +92,6 @@ function carregarTarefas() {
   aplicarFiltros(); // ✅ garante que os filtros funcionem após carregar
 }
 
-window.onload = carregarTarefas;
-
 function atualizarContador() {
   const tarefas = document.querySelectorAll('.task');
   const pendentes = Array.from(tarefas).filter(t => !t.classList.contains('concluido')).length;
@@ -133,7 +131,7 @@ function aplicarFiltros() {
   const botoesFiltro = document.querySelectorAll('.filtro');
 
   botoesFiltro.forEach(botao => {
-    botao.onclick = () => {
+    botao.addEventListener('click', () => {
       const tipo = botao.dataset.filtro;
       const tarefas = document.querySelectorAll('.task');
 
@@ -147,9 +145,13 @@ function aplicarFiltros() {
         }
       });
 
-      // Atualiza visual do botão ativo
       botoesFiltro.forEach(b => b.classList.remove('ativo'));
       botao.classList.add('ativo');
-    };
+    });
   });
 }
+
+// ✅ Garante que tudo seja carregado após o DOM estar pronto
+window.onload = () => {
+  carregarTarefas();
+};
