@@ -110,3 +110,9 @@ function atualizarContador() {
     concluidasEl.textContent = `Concluídas: ${concluidas}`;
   }
 }
+
+document.getElementById('toggle-tema').onclick = () => {
+  document.body.classList.toggle('tema-claro');
+};
+
+
