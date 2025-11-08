@@ -91,3 +91,14 @@ function carregarTarefas() {
 }
 
 window.onload = carregarTarefas;
+
+function atualizarContador() {
+  const tarefas = document.querySelectorAll('.task');
+  const pendentes = Array.from(tarefas).filter(t => !t.classList.contains('concluido')).length;
+  const concluidas = tarefas.length - pendentes;
+
+  document.getElementById('pendentes').textContent = `Pendentes: ${pendentes}`;
+  document.getElementById('concluidas').textContent = `Concluídas: ${concluidas}`;
+}
+
+
