@@ -145,6 +145,7 @@ function aplicarFiltros() {
         }
       });
 
+      // Atualiza botão ativo
       botoesFiltro.forEach(b => b.classList.remove('ativo'));
       botao.classList.add('ativo');
     });
