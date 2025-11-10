@@ -72,4 +72,21 @@ function criarItemTarefa(texto, concluido = false, criadaEm = null, concluidaEm 
 
   item.appendChild(dot);
   item.appendChild(spanText);
-  item.append
+  item.appendChild(info);
+  item.appendChild(actions);
+
+  if (concluido) {
+    item.classList.add('concluido');
+    item.dataset.concluidaEm = concluidaEm || '';
+  }
+
+  item.dataset.criadaEm = dataCriacao;
+
+  return item;
+}
+
+function salvarTarefas() {
+  const lista = document.getElementById('lista');
+  const tarefas = [];
+
+  lista.querySelector
