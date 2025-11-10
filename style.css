@@ -300,4 +300,11 @@ body.tema-claro .filtro:hover {
   color: white;
 }
 
+.task .info {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-top: 6px;
+}
+
+
 
