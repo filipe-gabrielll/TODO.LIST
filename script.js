@@ -1,139 +1,68 @@
-function adicionarTarefa() {
-  const input = document.getElementById('nova-tarefa');
-  const lista = document.getElementById('lista');
-  const texto = input.value.trim();
-
-  if (!texto) return;
-
-  const item = criarItemTarefa(texto);
-  lista.appendChild(item);
-
-  input.value = '';
-  salvarTarefas();
-  atualizarContador();
+function aplicarTemaSalvo() {
+  const temaSalvo = localStorage.getItem('tema');
+  const botaoTema = document.getElementById('toggle-tema');
+  if (temaSalvo === 'claro') {
+    document.body.classList.add('tema-claro');
+    if (botaoTema) botaoTema.textContent = 'Tema Escuro';
+  } else {
+    document.body.classList.remove('tema-claro');
+    if (botaoTema) botaoTema.textContent = 'Tema Claro';
+  }
 }
 
-function criarItemTarefa(texto, concluido = false, criadaEm = null, concluidaEm = null) {
-  const item = document.createElement('li');
-  item.className = 'task';
+function aplicarFiltros() {
+  const botoesFiltro = document.querySelectorAll('.filtro');
 
-  const dot = document.createElement('span');
-  dot.className = 'dot';
+  if (!botoesFiltro || botoesFiltro.length === 0) return;
 
-  const spanText = document.createElement('span');
-  spanText.className = 'text';
-  spanText.textContent = texto;
+  botoesFiltro.forEach(botao => {
+    // remove listeners duplicados garantindo idempotência
+    botao.replaceWith(botao.cloneNode(true));
+  });
 
-  const info = document.createElement('div');
-  info.className = 'info';
-  const dataCriacao = criadaEm || new Date().toLocaleDateString();
-  info.innerHTML = `<small>Criada em: ${dataCriacao}</small>`;
+  const botoesAtualizados = document.querySelectorAll('.filtro');
 
-  if (concluido && concluidaEm) {
-    info.innerHTML += `<br><small>Concluída em: ${concluidaEm}</small>`;
-  }
+  botoesAtualizados.forEach(botao => {
+    botao.addEventListener('click', () => {
+      const tipo = botao.dataset.filtro;
+      const tarefas = document.querySelectorAll('.task');
 
-  const actions = document.createElement('div');
-  actions.className = 'actions';
+      tarefas.forEach(tarefa => {
+        if (tipo === 'todas') {
+          tarefa.style.display = 'flex';
+        } else if (tipo === 'pendentes') {
+          tarefa.style.display = tarefa.classList.contains('concluido') ? 'none' : 'flex';
+        } else if (tipo === 'concluidas') {
+          tarefa.style.display = tarefa.classList.contains('concluido') ? 'flex' : 'none';
+        }
+      });
 
-  const botaoConcluir = document.createElement('button');
-  botaoConcluir.className = 'icon-btn complete';
-  botaoConcluir.innerHTML = '<span class="dot-mini"></span> Concluir';
-  botaoConcluir.onclick = () => {
-    item.classList.toggle('concluido');
-
-    if (item.classList.contains('concluido')) {
-      const data = new Date().toLocaleDateString();
-      item.dataset.concluidaEm = data;
-      info.innerHTML += `<br><small>Concluída em: ${data}</small>`;
-    } else {
-      item.dataset.concluidaEm = '';
-      info.innerHTML = `<small>Criada em: ${dataCriacao}</small>`;
-    }
-
-    salvarTarefas();
-    atualizarContador();
-  };
-
-  const botaoRemover = document.createElement('button');
-  botaoRemover.className = 'icon-btn remove';
-  botaoRemover.innerHTML = '<span class="dot-mini"></span> Remover';
-  botaoRemover.onclick = () => {
-    item.classList.add('removendo');
-    setTimeout(() => {
-      item.remove();
-      salvarTarefas();
-      atualizarContador();
-    }, 300);
-  };
-
-  actions.appendChild(botaoConcluir);
-  actions.appendChild(botaoRemover);
-
-  item.appendChild(dot);
-  item.appendChild(spanText);
-  item.appendChild(info);
-  item.appendChild(actions);
-
-  if (concluido) {
-    item.classList.add('concluido');
-    item.dataset.concluidaEm = concluidaEm || '';
-  }
-
-  item.dataset.criadaEm = dataCriacao;
-
-  return item;
-}
-
-function salvarTarefas() {
-  const lista = document.getElementById('lista');
-  const tarefas = [];
-
-  lista.querySelectorAll('.task').forEach(item => {
-    tarefas.push({
-      texto: item.querySelector('.text').textContent,
-      concluido: item.classList.contains('concluido'),
-      criadaEm: item.dataset.criadaEm,
-      concluidaEm: item.dataset.concluidaEm || ''
+      // Atualiza botão ativo
+      botoesAtualizados.forEach(b => b.classList.remove('ativo'));
+      botao.classList.add('ativo');
     });
   });
-
-  localStorage.setItem('tarefas', JSON.stringify(tarefas));
 }
 
-function carregarTarefas() {
-  const lista = document.getElementById('lista');
-  lista.innerHTML = '';
-
-  const tarefas = JSON.parse(localStorage.getItem('tarefas')) || [];
-
-  tarefas.forEach(tarefa => {
-    const item = criarItemTarefa(
-      tarefa.texto,
-      tarefa.concluido,
-      tarefa.criadaEm,
-      tarefa.concluidaEm
-    );
-    lista.appendChild(item);
-  });
-
-  atualizarContador();
+// Inicialização segura quando DOM estiver pronto
+window.onload = () => {
+  // Aplica tema salvo e ajusta texto do botão caso exista
   aplicarTemaSalvo();
-  aplicarFiltros(); // ✅ garante que os filtros funcionem após carregar
-}
 
-function atualizarContador() {
-  const tarefas = document.querySelectorAll('.task');
-  const pendentes = Array.from(tarefas).filter(t => !t.classList.contains('concluido')).length;
-  const concluidas = tarefas.length - pendentes;
-
-  const pendentesEl = document.getElementById('pendentes');
-  const concluidasEl = document.getElementById('concluidas');
-
-  if (pendentesEl && concluidasEl) {
-    pendentesEl.textContent = `Pendentes: ${pendentes}`;
-    concluidasEl.textContent = `Concluídas: ${concluidas}`;
+  // Atribui evento ao botão de tema com checagem de existência
+  const botaoTema = document.getElementById('toggle-tema');
+  if (botaoTema) {
+    botaoTema.onclick = () => {
+      document.body.classList.toggle('tema-claro');
+      const temaAtual = document.body.classList.contains('tema-claro') ? 'claro' : 'escuro';
+      localStorage.setItem('tema', temaAtual);
+      botaoTema.textContent = temaAtual === 'claro' ? 'Tema Escuro' : 'Tema Claro';
+    };
   }
-}
 
-// ✅ Alternância de tema com salvamento e texto din
+  // Carrega tarefas (que por sua vez chama aplicarTemaSalvo e aplicarFiltros)
+  if (typeof carregarTarefas === 'function') carregarTarefas();
+
+  // Garante que filtros estejam ativos (idempotente)
+  if (typeof aplicarFiltros === 'function') aplicarFiltros();
+};
