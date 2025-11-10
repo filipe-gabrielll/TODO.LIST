@@ -13,7 +13,7 @@ function adicionarTarefa() {
   atualizarContador();
 }
 
-function criarItemTarefa(texto, concluido = false, criadaEm = null, concluidaEm = null) {
+function criarItemTarefa(texto, concluido = false) {
   const item = document.createElement('li');
   item.className = 'task';
 
@@ -24,15 +24,6 @@ function criarItemTarefa(texto, concluido = false, criadaEm = null, concluidaEm 
   spanText.className = 'text';
   spanText.textContent = texto;
 
-  const info = document.createElement('div');
-  info.className = 'info';
-  const dataCriacao = criadaEm || new Date().toLocaleDateString();
-  info.innerHTML = `<small>Criada em: ${dataCriacao}</small>`;
-
-  if (concluido && concluidaEm) {
-    info.innerHTML += `<br><small>Concluída em: ${concluidaEm}</small>`;
-  }
-
   const actions = document.createElement('div');
   actions.className = 'actions';
 
@@ -41,16 +32,6 @@ function criarItemTarefa(texto, concluido = false, criadaEm = null, concluidaEm 
   botaoConcluir.innerHTML = '<span class="dot-mini"></span> Concluir';
   botaoConcluir.onclick = () => {
     item.classList.toggle('concluido');
-
-    if (item.classList.contains('concluido')) {
-      const data = new Date().toLocaleDateString();
-      item.dataset.concluidaEm = data;
-      info.innerHTML += `<br><small>Concluída em: ${data}</small>`;
-    } else {
-      item.dataset.concluidaEm = '';
-      info.innerHTML = `<small>Criada em: ${dataCriacao}</small>`;
-    }
-
     salvarTarefas();
     atualizarContador();
   };
@@ -72,15 +53,11 @@ function criarItemTarefa(texto, concluido = false, criadaEm = null, concluidaEm 
 
   item.appendChild(dot);
   item.appendChild(spanText);
-  item.appendChild(info);
   item.appendChild(actions);
 
   if (concluido) {
     item.classList.add('concluido');
-    item.dataset.concluidaEm = concluidaEm || '';
   }
-
-  item.dataset.criadaEm = dataCriacao;
 
   return item;
 }
@@ -89,4 +66,93 @@ function salvarTarefas() {
   const lista = document.getElementById('lista');
   const tarefas = [];
 
-  lista.querySelector
+  lista.querySelectorAll('.task').forEach(item => {
+    tarefas.push({
+      texto: item.querySelector('.text').textContent,
+      concluido: item.classList.contains('concluido')
+    });
+  });
+
+  localStorage.setItem('tarefas', JSON.stringify(tarefas));
+}
+
+function carregarTarefas() {
+  const lista = document.getElementById('lista');
+  lista.innerHTML = '';
+
+  const tarefas = JSON.parse(localStorage.getItem('tarefas')) || [];
+
+  tarefas.forEach(tarefa => {
+    const item = criarItemTarefa(tarefa.texto, tarefa.concluido);
+    lista.appendChild(item);
+  });
+
+  atualizarContador();
+  aplicarTemaSalvo();
+  aplicarFiltros(); // ✅ garante que os filtros funcionem após carregar
+}
+
+function atualizarContador() {
+  const tarefas = document.querySelectorAll('.task');
+  const pendentes = Array.from(tarefas).filter(t => !t.classList.contains('concluido')).length;
+  const concluidas = tarefas.length - pendentes;
+
+  const pendentesEl = document.getElementById('pendentes');
+  const concluidasEl = document.getElementById('concluidas');
+
+  if (pendentesEl && concluidasEl) {
+    pendentesEl.textContent = `Pendentes: ${pendentes}`;
+    concluidasEl.textContent = `Concluídas: ${concluidas}`;
+  }
+}
+
+// ✅ Alternância de tema com salvamento e texto dinâmico
+const botaoTema = document.getElementById('toggle-tema');
+
+function aplicarTemaSalvo() {
+  const temaSalvo = localStorage.getItem('tema');
+  if (temaSalvo === 'claro') {
+    document.body.classList.add('tema-claro');
+    botaoTema.textContent = 'Tema Escuro';
+  } else {
+    botaoTema.textContent = 'Tema Claro';
+  }
+}
+
+botaoTema.onclick = () => {
+  document.body.classList.toggle('tema-claro');
+  const temaAtual = document.body.classList.contains('tema-claro') ? 'claro' : 'escuro';
+  localStorage.setItem('tema', temaAtual);
+  botaoTema.textContent = temaAtual === 'claro' ? 'Tema Escuro' : 'Tema Claro';
+};
+
+// ✅ Filtro de visualização corrigido
+function aplicarFiltros() {
+  const botoesFiltro = document.querySelectorAll('.filtro');
+
+  botoesFiltro.forEach(botao => {
+    botao.addEventListener('click', () => {
+      const tipo = botao.dataset.filtro;
+      const tarefas = document.querySelectorAll('.task');
+
+      tarefas.forEach(tarefa => {
+        if (tipo === 'todas') {
+          tarefa.style.display = 'flex';
+        } else if (tipo === 'pendentes') {
+          tarefa.style.display = tarefa.classList.contains('concluido') ? 'none' : 'flex';
+        } else if (tipo === 'concluidas') {
+          tarefa.style.display = tarefa.classList.contains('concluido') ? 'flex' : 'none';
+        }
+      });
+
+      // Atualiza botão ativo
+      botoesFiltro.forEach(b => b.classList.remove('ativo'));
+      botao.classList.add('ativo');
+    });
+  });
+}
+
+// ✅ Garante que tudo seja carregado após o DOM estar pronto
+window.onload = () => {
+  carregarTarefas();
+};
