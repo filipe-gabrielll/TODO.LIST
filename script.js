@@ -113,15 +113,6 @@ function carregarTarefas() {
   aplicarFiltros();
 }
 
-function atualizarContador() {
-  const tarefas = document.querySelectorAll('.task');
-  const pendentes = Array.from(tarefas).filter(t => !t.classList.contains('concluido')).length;
-  const concluidas = tarefas.length - pendentes;
-
-  document.getElementById('pendentes').textContent = `Pendentes: ${pendentes}`;
-  document.getElementById('concluidas').textContent = `Concluídas: ${concluidas}`;
-}
-
 function aplicarTemaSalvo() {
   const temaSalvo = localStorage.getItem('tema');
   const botaoTema = document.getElementById('toggle-tema');
@@ -210,4 +201,3 @@ function atualizarContador() {
 
   atualizarGrafico(pendentes, concluidas); // atualiza gráfico
 }
-
