@@ -67,7 +67,6 @@ function criarItemTarefa(texto, concluido = false, criadaEm = null, concluidaEm 
   actions.appendChild(botaoConcluir);
   actions.appendChild(botaoRemover);
 
-  // ordem: dot | texto | ações | info
   item.appendChild(dot);
   item.appendChild(spanText);
   item.appendChild(actions);
@@ -123,7 +122,6 @@ function atualizarContador() {
   document.getElementById('concluidas').textContent = `Concluídas: ${concluidas}`;
 }
 
-// Tema claro/escuro
 function aplicarTemaSalvo() {
   const temaSalvo = localStorage.getItem('tema');
   const botaoTema = document.getElementById('toggle-tema');
@@ -136,7 +134,6 @@ function aplicarTemaSalvo() {
   }
 }
 
-// Filtros
 function aplicarFiltros() {
   const botoesFiltro = document.querySelectorAll('.filtro');
   if (!botoesFiltro || botoesFiltro.length === 0) return;
@@ -163,6 +160,7 @@ function aplicarFiltros() {
 // Inicialização
 window.onload = () => {
   carregarTarefas();
+
   const botaoTema = document.getElementById('toggle-tema');
   if (botaoTema) {
     botaoTema.onclick = () => {
