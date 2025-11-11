@@ -171,3 +171,43 @@ window.onload = () => {
     };
   }
 };
+
+let grafico; // variável global para armazenar o gráfico
+
+function atualizarGrafico(pendentes, concluidas) {
+  const ctx = document.getElementById('graficoTarefas').getContext('2d');
+
+  if (grafico) {
+    grafico.destroy(); // remove gráfico anterior para recriar
+  }
+
+  grafico = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Pendentes', 'Concluídas'],
+      datasets: [{
+        label: 'Tarefas',
+        data: [pendentes, concluidas],
+        backgroundColor: ['#f87171', '#22c55e'] // vermelho e verde
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false }
+      }
+    }
+  });
+}
+
+function atualizarContador() {
+  const tarefas = document.querySelectorAll('.task');
+  const pendentes = Array.from(tarefas).filter(t => !t.classList.contains('concluido')).length;
+  const concluidas = tarefas.length - pendentes;
+
+  document.getElementById('pendentes').textContent = `Pendentes: ${pendentes}`;
+  document.getElementById('concluidas').textContent = `Concluídas: ${concluidas}`;
+
+  atualizarGrafico(pendentes, concluidas); // atualiza gráfico
+}
+
