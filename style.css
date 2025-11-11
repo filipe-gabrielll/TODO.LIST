@@ -287,13 +287,13 @@ body.tema-claro .contador span {
 }
 
 .filtro:hover {
-
-#graficoTarefas {
-  max-width: 250px;
-  max-height: 150px;
+  background: #263a61;
 }
 
+/* Gráfico */
 #graficoTarefas {
   display: block;
-  margin: 30px auto; /* espaço acima e centralizado */
+  margin: 30px auto;   /* espaço acima e centralizado */
+  max-width: 250px;
+  max-height: 150px;
 }
