@@ -67,6 +67,7 @@ function criarItemTarefa(texto, concluido = false, criadaEm = null, concluidaEm 
   actions.appendChild(botaoConcluir);
   actions.appendChild(botaoRemover);
 
+  // ordem: dot | texto | ações | info
   item.appendChild(dot);
   item.appendChild(spanText);
   item.appendChild(actions);
@@ -118,13 +119,8 @@ function atualizarContador() {
   const pendentes = Array.from(tarefas).filter(t => !t.classList.contains('concluido')).length;
   const concluidas = tarefas.length - pendentes;
 
-  const pendentesEl = document.getElementById('pendentes');
-  const concluidasEl = document.getElementById('concluidas');
-
-  if (pendentesEl && concluidasEl) {
-    pendentesEl.textContent = `Pendentes: ${pendentes}`;
-    concluidasEl.textContent = `Concluídas: ${concluidas}`;
-  }
+  document.getElementById('pendentes').textContent = `Pendentes: ${pendentes}`;
+  document.getElementById('concluidas').textContent = `Concluídas: ${concluidas}`;
 }
 
 // Tema claro/escuro
@@ -146,24 +142,19 @@ function aplicarFiltros() {
   if (!botoesFiltro || botoesFiltro.length === 0) return;
 
   botoesFiltro.forEach(botao => {
-    botao.replaceWith(botao.cloneNode(true));
-  });
-
-  const botoesAtualizados = document.querySelectorAll('.filtro');
-  botoesAtualizados.forEach(botao => {
     botao.addEventListener('click', () => {
       const tipo = botao.dataset.filtro;
       const tarefas = document.querySelectorAll('.task');
       tarefas.forEach(tarefa => {
         if (tipo === 'todas') {
-          tarefa.style.display = 'grid'; // compatível com CSS
+          tarefa.style.display = 'grid';
         } else if (tipo === 'pendentes') {
           tarefa.style.display = tarefa.classList.contains('concluido') ? 'none' : 'grid';
         } else if (tipo === 'concluidas') {
           tarefa.style.display = tarefa.classList.contains('concluido') ? 'grid' : 'none';
         }
       });
-      botoesAtualizados.forEach(b => b.classList.remove('ativo'));
+      botoesFiltro.forEach(b => b.classList.remove('ativo'));
       botao.classList.add('ativo');
     });
   });
