@@ -1,4 +1,4 @@
-# Lista de Tarefas 📝
+# 📌 TODO.LIST 📝
 
 Uma aplicação simples e elegante para organizar seu dia.  
 Este projeto foi desenvolvido em **HTML, CSS e JavaScript**, com foco em produtividade e experiência do usuário.
@@ -17,14 +17,13 @@ Este projeto foi desenvolvido em **HTML, CSS e JavaScript**, com foco em produti
 - **CSS3** para estilo e responsividade
 - **JavaScript** para lógica e interatividade
 - **Chart.js** para visualização gráfica
+- (Opcional) **MySQL + PHP** se desejar integrar com banco de dados
 
 ## 🎯 Objetivo
 Facilitar a organização pessoal com uma interface intuitiva, moderna e visualmente agradável.  
 Ideal para quem busca simplicidade sem abrir mão de recursos úteis.
 
-## ▶️ Como usar
-1. Clone ou baixe este repositório
-2. Abra o arquivo `index.html` em seu navegador
-3. Comece a adicionar suas tarefas e aproveite!
-
----
+## 📂 Instalação
+1. Clone o repositório:
+   ```bash
+   git clone https://github.com/filipe-gabrielll/TODO.LIST.git
