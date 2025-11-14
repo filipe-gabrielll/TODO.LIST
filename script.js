@@ -1,19 +1,29 @@
 function adicionarTarefa() {
   const input = document.getElementById('nova-tarefa');
-  const lista = document.getElementById('lista');
   const texto = input.value.trim();
-
   if (!texto) return;
 
-  const item = criarItemTarefa(texto);
-  lista.appendChild(item);
-
-  input.value = '';
-  salvarTarefas();
-  atualizarContador();
+  fetch(API, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ texto })
+  })
+    .then(res => res.json())
+    .then(nova => {
+      const lista = document.getElementById('lista');
+      const item = criarItemTarefa(
+        nova.texto,
+        nova.concluido == 1,
+        nova.criadaEm,
+        nova.concluidaEm
+      );
+      lista.appendChild(item);
+      input.value = '';
+      atualizarContador();
+    });
 }
 
-function criarItemTarefa(texto, concluido = false, criadaEm = null, concluidaEm = null) {
+function criarItemTarefa(texto, concluido = false, criadaEm = null, concluidaEm = null, id = null) {
   const item = document.createElement('li');
   item.className = 'task';
 
@@ -38,7 +48,8 @@ function criarItemTarefa(texto, concluido = false, criadaEm = null, concluidaEm 
   const botaoConcluir = document.createElement('button');
   botaoConcluir.className = 'icon-btn complete';
   botaoConcluir.innerHTML = '<span class="dot-mini"></span> Concluir';
-  botaoConcluir.onclick = () => {
+  botaoConcluir.onclick = async () => {
+    await fetch(`${API}?id=${id}`, { method: "PUT" });
     item.classList.toggle('concluido');
     if (item.classList.contains('concluido')) {
       const data = new Date().toLocaleDateString();
@@ -48,18 +59,17 @@ function criarItemTarefa(texto, concluido = false, criadaEm = null, concluidaEm 
       item.dataset.concluidaEm = '';
       info.innerHTML = `<small>Criada em: ${item.dataset.criadaEm}</small>`;
     }
-    salvarTarefas();
     atualizarContador();
   };
 
   const botaoRemover = document.createElement('button');
   botaoRemover.className = 'icon-btn remove';
   botaoRemover.innerHTML = '<span class="dot-mini"></span> Remover';
-  botaoRemover.onclick = () => {
+  botaoRemover.onclick = async () => {
+    await fetch(`${API}?id=${id}`, { method: "DELETE" });
     item.classList.add('removendo');
     setTimeout(() => {
       item.remove();
-      salvarTarefas();
       atualizarContador();
     }, 280);
   };
@@ -81,36 +91,24 @@ function criarItemTarefa(texto, concluido = false, criadaEm = null, concluidaEm 
   return item;
 }
 
-function salvarTarefas() {
-  const lista = document.getElementById('lista');
-  const tarefas = [];
-  lista.querySelectorAll('.task').forEach(item => {
-    tarefas.push({
-      texto: item.querySelector('.text').textContent,
-      concluido: item.classList.contains('concluido'),
-      criadaEm: item.dataset.criadaEm,
-      concluidaEm: item.dataset.concluidaEm || ''
-    });
-  });
-  localStorage.setItem('tarefas', JSON.stringify(tarefas));
-}
-
-function carregarTarefas() {
+async function carregarTarefas() {
   const lista = document.getElementById('lista');
   lista.innerHTML = '';
-  const tarefas = JSON.parse(localStorage.getItem('tarefas')) || [];
-  tarefas.forEach(tarefa => {
+  const res = await fetch(API);
+  const tarefas = await res.json();
+
+  tarefas.forEach(t => {
     const item = criarItemTarefa(
-      tarefa.texto,
-      tarefa.concluido,
-      tarefa.criadaEm,
-      tarefa.concluidaEm
+      t.texto,
+      t.concluido == 1,
+      t.criadaEm,
+      t.concluidaEm,
+      t.id
     );
     lista.appendChild(item);
   });
+
   atualizarContador();
-  aplicarTemaSalvo();
-  aplicarFiltros();
 }
 
 function aplicarTemaSalvo() {
@@ -203,21 +201,3 @@ function atualizarContador() {
 }
 
 const API = "http://localhost/tarefas-api/api.php";
-
-async function carregarTarefas() {
-  const res = await fetch(API);
-  const tarefas = await res.json();
-  console.log(tarefas); // aqui você pode renderizar na lista
-}
-
-async function adicionarTarefa() {
-  const texto = document.getElementById("nova-tarefa").value.trim();
-  if (!texto) return;
-  const res = await fetch(API, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ texto })
-  });
-  const nova = await res.json();
-  console.log(nova); // aqui você adiciona na lista
-}
