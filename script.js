@@ -1,26 +1,29 @@
-function adicionarTarefa() {
-  const input = document.getElementById('nova-tarefa');
-  const texto = input.value.trim();
+const API = "http://localhost/tarefas-api/api.php";
+let grafico; // variável global para armazenar o gráfico
+
+async function adicionarTarefa() {
+  const texto = document.getElementById("nova-tarefa").value.trim();
   if (!texto) return;
 
-  fetch(API, {
+  const res = await fetch(API, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ texto })
-  })
-    .then(res => res.json())
-    .then(nova => {
-      const lista = document.getElementById('lista');
-      const item = criarItemTarefa(
-        nova.texto,
-        nova.concluido == 1,
-        nova.criadaEm,
-        nova.concluidaEm
-      );
-      lista.appendChild(item);
-      input.value = '';
-      atualizarContador();
-    });
+  });
+  const nova = await res.json();
+
+  const lista = document.getElementById("lista");
+  const item = criarItemTarefa(
+    nova.texto,
+    nova.concluido == 1,
+    nova.criadaEm,
+    nova.concluidaEm,
+    nova.id
+  );
+  lista.appendChild(item);
+
+  document.getElementById("nova-tarefa").value = "";
+  atualizarContador();
 }
 
 function criarItemTarefa(texto, concluido = false, criadaEm = null, concluidaEm = null, id = null) {
@@ -109,6 +112,8 @@ async function carregarTarefas() {
   });
 
   atualizarContador();
+  aplicarTemaSalvo();
+  aplicarFiltros();
 }
 
 function aplicarTemaSalvo() {
@@ -161,8 +166,6 @@ window.onload = () => {
   }
 };
 
-let grafico; // variável global para armazenar o gráfico
-
 function atualizarGrafico(pendentes, concluidas) {
   const ctx = document.getElementById('graficoTarefas').getContext('2d');
 
@@ -199,5 +202,3 @@ function atualizarContador() {
 
   atualizarGrafico(pendentes, concluidas); // atualiza gráfico
 }
-
-const API = "http://localhost/tarefas-api/api.php";
