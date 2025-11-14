@@ -201,3 +201,23 @@ function atualizarContador() {
 
   atualizarGrafico(pendentes, concluidas); // atualiza gráfico
 }
+
+const API = "http://localhost/tarefas-api/api.php";
+
+async function carregarTarefas() {
+  const res = await fetch(API);
+  const tarefas = await res.json();
+  console.log(tarefas); // aqui você pode renderizar na lista
+}
+
+async function adicionarTarefa() {
+  const texto = document.getElementById("nova-tarefa").value.trim();
+  if (!texto) return;
+  const res = await fetch(API, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ texto })
+  });
+  const nova = await res.json();
+  console.log(nova); // aqui você adiciona na lista
+}
