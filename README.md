@@ -27,3 +27,66 @@ Ideal para quem busca simplicidade sem abrir mão de recursos úteis.
 1. Clone o repositório:
    ```bash
    git clone https://github.com/filipe-gabrielll/TODO.LIST.git
+
+Abra a pasta do projeto.
+
+Se estiver usando servidor local (como XAMPP):
+
+Copie os arquivos para a pasta htdocs.
+
+Inicie os serviços Apache e MySQL no painel do XAMPP.
+
+Caso contrário:
+
+Basta abrir o arquivo index.html diretamente no navegador.
+
+2. Como usar
+Abra o arquivo index.html em seu navegador.
+
+Adicione suas tarefas e aproveite todos os recursos disponíveis:
+
+Criar novas tarefas
+
+Marcar como concluídas
+
+Remover tarefas
+
+Filtrar por Todas, Pendentes ou Concluídas
+
+Alternar entre Tema Escuro e Tema Claro
+
+Visualizar estatísticas no gráfico dinâmico
+
+3. Estrutura do Banco (opcional)
+Se desejar integrar com banco de dados (MySQL), configure:
+
+Crie um banco de dados chamado todo_list.
+
+Crie a tabela tasks com os seguintes campos:
+
+id (chave primária, auto incremento)
+
+title (título da tarefa)
+
+description (descrição)
+
+status (pendente ou concluída)
+
+created_at (data de criação)
+
+Exemplo de script SQL:
+
+CREATE DATABASE todo_list;
+
+USE todo_list;
+
+CREATE TABLE tasks (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  title VARCHAR(255) NOT NULL,
+  description TEXT,
+  status ENUM('pendente','concluída') DEFAULT 'pendente',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+Licença
+Este projeto está sob a licença MIT – fique à vontade para usar e modificar.
