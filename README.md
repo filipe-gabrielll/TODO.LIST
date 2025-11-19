@@ -75,8 +75,9 @@ Tabela: `tarefas`
 
 📂 Instalação
 🔧 Modo servidor (XAMPP)
-Clone o repositório:
 
+
+Clone o repositório:
 Copiar
 git clone https://github.com/filipe-gabrielll/TODO.LIST.git
 Copie os arquivos para a pasta htdocs do XAMPP.
