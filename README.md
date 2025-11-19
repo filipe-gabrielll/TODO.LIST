@@ -78,7 +78,6 @@ Tabela: `tarefas`
 
 
 Clone o repositório:
-Copiar
 git clone https://github.com/filipe-gabrielll/TODO.LIST.git
 Copie os arquivos para a pasta htdocs do XAMPP.
 Inicie os serviços Apache e MySQL no painel do XAMPP.
