@@ -3,43 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <title>Lista de Tarefas</title>
+  <!-- Importa o arquivo de estilos -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="app">
+    <!-- Cabeçalho da aplicação -->
     <div class="header">
       <h1>Lista de Tarefas</h1>
       <span class="badge">Organize seu dia</span>
     </div>
 
+    <!-- Botão para alternar entre tema claro e escuro -->
     <button id="toggle-tema" class="btn tema">Alternar Tema</button>
 
+    <!-- Botões de filtro para exibir tarefas específicas -->
     <div class="filtros">
       <button class="btn filtro" data-filtro="todas">Todas</button>
       <button class="btn filtro" data-filtro="pendentes">Pendentes</button>
       <button class="btn filtro" data-filtro="concluidas">Concluídas</button>
     </div>
 
+    <!-- Contadores de tarefas pendentes e concluídas -->
     <div class="contador">
       <span id="pendentes">Pendentes: 0</span>
       <span id="concluidas">Concluídas: 0</span>
     </div>
 
+    <!-- Campo de entrada para nova tarefa -->
     <div class="input-row">
-      <input type="text" id="nova-tarefa" placeholder="Digite uma tarefa">
-      <button class="btn" onclick="adicionarTarefa()">
-        <span class="plus"></span> Adicionar
-      </button>
-    </div>
-
-    <ul id="lista">
-      <!-- Tarefas serão adicionadas dinamicamente -->
-    </ul>
-    
-   <canvas id="graficoTarefas" width="400" height="200"></canvas>
-    
-  </div>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="script.js"></script>
-</body>
-</html>
