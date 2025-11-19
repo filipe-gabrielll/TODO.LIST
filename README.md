@@ -76,21 +76,24 @@ Tabela: `tarefas`
 📂 Instalação
 🔧 Modo servidor (XAMPP)
 
-
 Clone o repositório:
 git clone https://github.com/filipe-gabrielll/TODO.LIST.git
-Copie os arquivos para a pasta htdocs do XAMPP.
-Inicie os serviços Apache e MySQL no painel do XAMPP.
-Acesse o phpMyAdmin e crie o banco lista_tarefas.
-Importe o arquivo lista-bdd.sql para criar a tabela e os dados.
+
+
+1.Copie os arquivos para a pasta htdocs do XAMPP.
+2.Inicie os serviços Apache e MySQL no painel do XAMPP.
+3.Acesse o phpMyAdmin e crie o banco lista_tarefas.
+4.Importe o arquivo lista-bdd.sql para criar a tabela e os dados.
 
 
 Acesse no navegador:
 http://localhost/tarefas-api/index.php
+
+
 🖥️ Modo local (sem servidor)
 Apenas para testes com LocalStorage (sem banco de dados)
-Abra o arquivo index.html diretamente no navegador.
-As tarefas serão salvas no navegador via LocalStorage.
+1.Abra o arquivo index.html diretamente no navegador.
+2.As tarefas serão salvas no navegador via LocalStorage.
 
 📎 Créditos
 Desenvolvido por Filipe Gabriell  
