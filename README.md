@@ -86,8 +86,6 @@ Importe o arquivo lista-bdd.sql para criar a tabela e os dados.
 
 
 Acesse no navegador:
-Código
-Copiar
 http://localhost/tarefas-api/index.php
 🖥️ Modo local (sem servidor)
 Apenas para testes com LocalStorage (sem banco de dados)
